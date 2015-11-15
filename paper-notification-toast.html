@@ -1,0 +1,175 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+
+<!--
+An element providing a solution to no problem in particular.
+
+Example:
+
+    <paper-notification-toast></paper-notification-toast>
+
+@group Hitsoft Elements
+@element paper-notification-toast
+@demo demo/index.html
+@hero hero.svg
+-->
+<dom-module id="paper-notification-toast">
+
+    <template>
+        <style>
+            :host {
+                display: inline-block;
+                position: fixed;
+
+                background: #323232;
+                color: #f1f1f1;
+                min-height: 48px;
+                min-width: 288px;
+                padding: 16px 24px 12px;
+                box-sizing: border-box;
+                box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.26);
+                border-radius: 2px;
+                border 1px solid;
+                bottom: 12px;
+                left: 12px;
+                font-size: 14px;
+                cursor: default;
+
+                -webkit-transition: visibility 0.3s, -webkit-transform 0.3s;
+                transition: visibility 0.3s, transform 0.3s;
+
+                -webkit-transform: translateY(100px);
+                transform: translateY(100px);
+
+                visibility: hidden;
+            }
+
+            :host(.capsule) {
+                border-radius: 24px;
+            }
+
+            :host(.fit-bottom) {
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                min-width: 0;
+                border-radius: 0;
+            }
+
+            :host(.paper-toast-open){
+                visibility: visible;
+
+                -webkit-transform: translateY(0px);
+                transform: translateY(0px);
+            }
+
+            :host(.SUCCESS) {
+                background-color: var(--color-theme-alert-dark-success-background);
+                border-color: var(--color-theme-alert-dark-success-border);
+                color: var(--color-theme-alert-dark-success-text);
+            }
+
+            :host(.INFO) {
+                background-color: var(--color-theme-alert-dark-info-background);
+                border-color: var(--color-theme-alert-dark-info-border);
+                color: var(--color-theme-alert-dark-info-text);
+            }
+
+            :host(.WARNING) {
+                background-color: var(--color-theme-alert-dark-warning-background);
+                border-color: var(--color-theme-alert-dark-warning-border);
+                color: var(--color-theme-alert-dark-warning-text);
+            }
+
+            :host(.ERROR) {
+                background-color: var(--color-theme-alert-dark-error-background);
+                border-color: var(--color-theme-alert-dark-error-border);
+                color: var(--color-theme-alert-dark-error-text);
+            }
+        </style>
+        <span id="label">{{text}}</span>
+    </template>
+    <script>
+        'use strict';
+
+        Polymer({
+            is: 'paper-notification-toast',
+
+            listeners: {
+                'click': 'hide'
+            },
+
+            created: function() {
+                Polymer.IronA11yAnnouncer.requestAvailability();
+                window.PaperToast = window.PaperToast || {};
+                window.PaperToast.currentToast = window.PaperToast.currentToast || null;
+                this._queue = [];
+                this._visible = false;
+            },
+
+            ready: function() {
+                this.async(function() {
+                    this.hide();
+                });
+            },
+
+            /**
+             * Show the toast.
+             * @method show
+             */
+            show: function() {
+                if (PaperToast.currentToast && PaperToast.currentToast != this) {
+                    PaperToast.currentToast.hide();
+                }
+                PaperToast.currentToast = this;
+                this.removeAttribute('aria-hidden');
+                this._visible = true;
+                this.toggleClass('paper-toast-open', this._visible);
+                this.fire('iron-announce', {
+                    text: this.text
+                });
+                this.debounce('hide', this.hide, this.duration);
+            },
+
+            /**
+             * Hide the toast
+             */
+            hide: function() {
+                this.setAttribute('aria-hidden', 'true');
+                this._visible = false;
+                this.toggleClass('paper-toast-open', this._visible);
+                this.debounce('_next', this._next, 500);
+            },
+
+            add: function(msg){
+                this.push('_queue', msg);
+                if (!this._visible) {
+                    this._next();
+                }
+            },
+
+            reset: function() {
+                this._queue = [];
+                this.hide();
+            },
+
+            _next: function(){
+                var msg = this.shift('_queue');
+                if (msg) {
+                    this.text = msg.message;
+                    this.classList.remove('SUCCESS', 'INFO', 'WARNING', 'ERROR');
+                    if (msg.kind) {
+                        this.classList.add(msg.kind);
+                    }
+                    if (msg.duration) {
+                        this.duration = msg.duration;
+                    } else {
+                        this.duration = 3000;
+                    }
+                    this.show();
+                }
+            }
+        });
+    </script>
+</dom-module>
+

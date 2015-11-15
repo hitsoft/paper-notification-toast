@@ -1,0 +1,83 @@
+<!doctype html>
+<!--
+@license
+Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+    <title>paper-notification-toast Demo</title>
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="../paper-notification-toast.html">
+    <style is="custom-style">
+      :root {
+        --color-theme-alert-dark-success-background: green;
+        --color-theme-alert-dark-success-border: #005600;
+        --color-theme-alert-dark-success-text: rgba(255, 255, 255, 0.75);
+
+        --color-theme-alert-dark-info-background: blue;
+        --color-theme-alert-dark-info-border: #000073;
+        --color-theme-alert-dark-info-text: rgba(255, 255, 255, 0.75);
+
+        --color-theme-alert-dark-warning-background: #aa8757;
+        --color-theme-alert-dark-warning-border: #6c5035;
+        --color-theme-alert-dark-warning-text: rgba(255, 255, 255, 0.75);
+
+        --color-theme-alert-dark-error-background: red;
+        --color-theme-alert-dark-error-border: #730000;
+        --color-theme-alert-dark-error-text: rgba(255, 255, 255, 0.75);
+      }
+    </style>
+  </head>
+  <body unresolved>
+
+    <p>An example of <code>&lt;paper-notification-toast&gt;</code>:</p>
+
+    <paper-toast></paper-toast>
+
+    <button id="btnToast">Show Toast</button>
+
+    <paper-notification-toast id="toast" class="capsule"></paper-notification-toast>
+
+    <script>
+      var toast = document.getElementById('toast');
+
+      var btnToast = document.getElementById('btnToast');
+      btnToast.addEventListener('click', onBtnToastClick);
+
+      function onBtnToastClick() {
+        toast.add({
+          message: 'Hello world!',
+          duration: 5000
+        });
+        toast.add({
+          kind: 'SUCCESS',
+          message: 'Hello SUCCESS world! What if the message will be rather large and will contain some line breaks\nfor example here\nand there?',
+          duration: 5000
+        });
+        toast.add({
+          kind: 'INFO',
+          message: 'Hello INFO world!',
+          duration: 5000
+        });
+        toast.add({
+          kind: 'WARNING',
+          message: 'Hello WARNING world!',
+          duration: 5000
+        });
+        toast.add({
+          kind: 'ERROR',
+          message: 'Hello ERROR world!',
+          duration: 5000
+        });
+      }
+    </script>
+
+  </body>
+</html>

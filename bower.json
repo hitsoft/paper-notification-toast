@@ -1,0 +1,29 @@
+{
+  "name": "paper-notification-toast",
+  "version": "1.0.1",
+  "authors": [
+    "Konstantin Borisov <smeagol74@gmail.com>"
+  ],
+  "description": "Notification system for paper-toast.",
+  "keywords": [
+    "web-component",
+    "polymer",
+    "hitsoft",
+    "notification",
+    "toast"
+  ],
+  "main": "paper-notification-toast.html",
+  "license": "http://polymer.github.io/LICENSE.txt",
+  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "ignore": [
+    "/.*",
+    "/test/"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.1.0",
+    "paper-toast": "PolymerElements/paper-toast#^1.0.0"
+  },
+  "devDependencies": {
+    "iron-component-page": "PolymerElements/iron-component-page#^1.0.0"
+  }
+}
