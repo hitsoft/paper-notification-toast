@@ -14,7 +14,7 @@
   ],
   "main": "paper-notification-toast.html",
   "license": "http://polymer.github.io/LICENSE.txt",
-  "homepage": "https://github.com/<USERNAME>/seed-element/",
+  "homepage": "git@github.com:hitsoft/paper-notification-toast.git",
   "ignore": [
     "/.*",
     "/test/"
